@@ -77,9 +77,30 @@ app.post('/message', (req, res) => {
 
                   if(atr.toLowerCase() === cadena[i])
                   {
-                    msj_buscar = cadena[i];
 
-                    result = palabras[atr];                    
+                    if(cadena[i] === "asesor")
+                    {
+                      if(horarios)
+                      {
+                        console.log("[Brito] :: [Cumple horario habil] :: [horarios] :: " + horarios); 
+                        msj_buscar = cadena[i];
+                        result = palabras[atr];                                              
+                      }
+                      else
+                      {
+                        console.log("[Brito] :: [No cumple horario habil] :: [horarios] :: " + horarios);                    
+                        contenedor.type = palabras["asesor"].type;
+                        contenedor.accion = "end";
+                        contenedor.queue = "";
+                        contenedor.mensaje = mjs_horario;
+                        result = contenedor;
+                      }
+                    }
+                    else
+                    {
+                      msj_buscar = cadena[i];
+                      result = palabras[atr];   
+                    }                                     
 
                     bandera = true;
 
@@ -93,7 +114,7 @@ app.post('/message', (req, res) => {
 
               console.log("[Brito] :: [message] :: [msj_buscar_opcion] :: " + msj_buscar_opcion);
 
-              if(localStorage.getItem("msj_"+conversationID) == null) // No existe
+              /*if(localStorage.getItem("msj_"+conversationID) == null) // No existe
               {
                 console.log('[Brito] :: [message] :: [Crea Storage] :: ' + localStorage.getItem("msj_"+conversationID));
 
@@ -134,7 +155,7 @@ app.post('/message', (req, res) => {
                   result = palabras['asesor'];
                   bandera = true;
                 }
-              }               
+              } */              
 
               if(!bandera){ result = msj_dafault; localStorage.removeItem("msj_"+conversationID); }
 
