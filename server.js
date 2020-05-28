@@ -31,13 +31,17 @@ var menu_opciones = config.menu_opciones;
 var mjs_horario = config.mjs_horario;
 var contenedor = config.contenedor;
 
+var pais = config.pais;
+var nomApp = config.nomApp;
+
 app.post('/message', (req, res) => {
   config.obtener_fecha();
-  console.log("[Brito] :: [message] :: [Peticion POST] :: [FECHA-HORA] : "+config.fecha_actual+" "+config.hora_actual); 
+
+  console.log("[Brito] :: [message] :: [Peticion POST]"); 
 
   var horarios = horario.validarHorario(config.OPEN_HOUR, config.OPEN_MINUTE, config.CLOSE_HOUR, config.CLOSE_MINUTE);
 
-  console.log(horarios);  
+  //console.log("[Brito] :: [message] :: [Respuesta de Horario] :: " + horarios); 
 
   var result, resultado;
   var bandera = false , estatus = 200;
@@ -50,6 +54,12 @@ app.post('/message', (req, res) => {
   var user = req.body.user;
   var context = req.body.context;
   var cadena = req.body.message;
+
+  var bandera_tranferido = false;
+  var bandera_fueraHorario = false;
+  var nom_grupoACD = "";
+  var opcion = "";
+  var bandera_opt = true;
   
   if(apiVersion !== '' && typeof apiVersion !== "undefined") 
   {
@@ -77,35 +87,17 @@ app.post('/message', (req, res) => {
 
                   if(atr.toLowerCase() === cadena[i])
                   {
+                    opcion = cadena[i];
+                    msj_buscar = cadena[i];
 
-                    if(cadena[i] === "asesor")
+                    if(opcion == "asesor")
                     {
-                      if(horarios)
-                      {
-                        console.log("[Brito] :: [Cumple horario habil] :: [horarios] :: " + horarios); 
-                        msj_buscar = cadena[i];
-                        result = palabras[atr];                                              
-                      }
-                      else
-                      {
-                        console.log("[Brito] :: [No cumple horario habil] :: [horarios] :: " + horarios);                    
-                        contenedor.type = palabras["asesor"].type;
-                        contenedor.accion = "end";
-                        contenedor.queue = "";
-                        contenedor.mensaje = mjs_horario;
-                        result = contenedor;
-                      }
+                      palabras[atr].mensaje = obtener_MSJ(channel);
                     }
-                    else
-                    {
-                      msj_buscar = cadena[i];
-                      result = palabras[atr];   
-                    }                                     
 
+                    result = palabras[atr];
                     bandera = true;
-
-                    localStorage.removeItem("msj_"+conversationID);
-
+                    bandera_opt = true;
                     break;
                   }
                 }      
@@ -114,12 +106,11 @@ app.post('/message', (req, res) => {
 
               console.log("[Brito] :: [message] :: [msj_buscar_opcion] :: " + msj_buscar_opcion);
 
-              /*if(localStorage.getItem("msj_"+conversationID) == null) // No existe
+              if(localStorage.getItem("msj_"+conversationID) == null) // No existe
               {
-                console.log('[Brito] :: [message] :: [Crea Storage] :: ' + localStorage.getItem("msj_"+conversationID));
-
                 if(msj_buscar == "asesor")
                 {
+                  console.log('[Brito] :: [message] :: [Crea Storage] :: ' + localStorage.getItem("msj_"+conversationID));
                   localStorage.setItem("msj_"+conversationID, msj_buscar);
                 }
               }
@@ -132,11 +123,13 @@ app.post('/message', (req, res) => {
                 if((msj_buscar_opcion == "1" || msj_buscar_opcion == "2") && localStorage.getItem("msj_"+conversationID) == "asesor")
                 {
                   localStorage.removeItem("msj_"+conversationID);
-
+                  opcion = "asesor - " + msj_buscar_opcion;
                   if(horarios)
                   {
                     console.log("[Brito] :: [Cumple horario habil] :: [horarios] :: " + horarios); 
-                    result = menu_opciones[msj_buscar_opcion];                                              
+                    result = menu_opciones[msj_buscar_opcion];
+                    nom_grupoACD = obtener_ACD(channel, 'asesor-'+msj_buscar_opcion);
+                    bandera_tranferido = true;
                   }
                   else
                   {
@@ -146,18 +139,57 @@ app.post('/message', (req, res) => {
                     contenedor.queue = "";
                     contenedor.mensaje = mjs_horario;
                     result = contenedor;
+                    bandera_fueraHorario = true;
                   }
+
                   bandera = true;
+                  bandera_opt = true;
                 }
                 else if (!isNaN(y) && localStorage.getItem("msj_"+conversationID) == "asesor")
                 {
                   console.log("[Brito] :: [No es el número correcto] :: [Número de opción] :: " + y);
+                  opcion = "asesor";
                   result = palabras['asesor'];
-                  bandera = true;
+                  bandera = true;                  
+                  bandera_opt = false;
                 }
-              } */              
+                else
+                {
+                  localStorage.removeItem("msj_"+conversationID);
+                }
+              }
 
-              if(!bandera){ result = msj_dafault; localStorage.removeItem("msj_"+conversationID); }
+              var options = {
+                'method': 'POST',
+                'url': 'https://estadisticasmenubot.mybluemix.net/opcion/insert',
+                'headers': {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                {
+                  "conversacion_id": conversationID,
+                  "pais": pais,
+                  "app": nomApp,
+                  "opcion": opcion,
+                  "transferencia": bandera_tranferido,
+                  "fueraHorario": bandera_fueraHorario,
+                  "grupoACD": nom_grupoACD
+                })
+              };
+              console.log("[Banderas] :: ",bandera, bandera_opt);
+              if(bandera == true)
+              {
+                if(bandera_opt)
+                {
+                  console.log(options);
+                  /*request(options, function (error, response)
+                  { 
+                    if (error) throw new Error(error);
+                    console.log(response.body);
+                  });*/
+                }
+              }
+              else{result = msj_dafault; localStorage.removeItem("msj_"+conversationID);}
 
               estatus = 200;
 
@@ -169,7 +201,7 @@ app.post('/message', (req, res) => {
                 },
                 "action":{
                   "type": result.accion,
-                  "queue": result.queue
+                  "queue": nom_grupoACD
                 },
                 "messages":[{
                   "type": result.type,
@@ -183,6 +215,8 @@ app.post('/message', (req, res) => {
               };
 
               if(result.mensaje === ""){resultado.messages = [];}
+
+              console.log("[Brito] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: [Brito]");
             }
             else
             {
@@ -280,7 +314,60 @@ app.post('/terminate', (req, res) => {
   } 
 
   res.status(estatus).json(resultado);
-})
+});
+
+function obtener_ACD(rs, op)
+{
+  switch (rs)
+  {
+    case "messenger":
+      if(op == "asesor-1")
+      {
+        return config.cola_opc1_FB; // CR_FB_MSS_VENTAS
+      }
+      else if(op == "asesor-2")
+      {
+        return config.cola_opc2_FB; // CR_FB_MSS_SAC
+      }else{ return "";}
+    break;
+    case "twitterDM":
+      if(op == "asesor-1")
+      {
+        return config.cola_opc1_TW; // CR_TW_DM_VENTAS
+      }
+      else if(op == "asesor-2")
+      {
+        return config.cola_opc2_TW; // CR_TW_DM_SAC
+      }else{ return "";}
+    break;
+    default:
+      if(op == "asesor-1")
+      {
+        return config.cola_opc1; // CR_Wa_Ventas
+      }
+      else if(op == "asesor-2")
+      {
+        return config.cola_opc2; // CR_Wa_Movil
+      }else{ return "";}
+    break;
+  }
+}
+
+function obtener_MSJ(rs)
+{
+  switch (rs)
+  {
+    case "messenger":
+      return "Bienvenido al Facebook Messenger " + config.msj_asesor_uno;
+    break;
+    case "twitterDM":
+      return "Bienvenido al Twitter " + config.msj_asesor_uno;
+    break;
+    default:
+      return "Bienvenido al WhatsApp " + config.msj_asesor_uno;
+    break;
+  }
+}
 
 app.get('/:img', function(req, res){
     res.sendFile( `img/${img}` );
@@ -304,7 +391,7 @@ app.get('/', (req, res) => {
   respuesta += "Hora inicio: " + config.OPEN_HOUR + " - Hora Fin: " + config.CLOSE_HOUR + " <br> ";
   respuesta += "Respuesta del Horario: " + horarios + " <br> ";
   respuesta += "Hora Convertida  " + nd +" <br>";
-  respuesta += "Versión: 2.0.0 <br>";
+  respuesta += "Versión: 3.0.0 <br>";
   res.status(200).send(respuesta);
 })
 

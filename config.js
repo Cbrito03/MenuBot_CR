@@ -1,3 +1,6 @@
+//var cola_opc1 = "WhatsappTest";
+var pais = "CR", nomApp = "MenuBot_CR";
+
 var OPEN_HOUR = 7;
 var OPEN_MINUTE = 0;
 
@@ -17,14 +20,19 @@ var dias = {
 };
 
 var cola_opc1 = "CR_Wa_Ventas";
+var cola_opc1_FB = "CR_FB_MSS_VENTAS";
+var cola_opc1_TW = "CR_TW_DM_VENTAS";
+
 var cola_opc2 = "CR_Wa_Movil";
+var cola_opc2_FB = "CR_FB_MSS_SAC";
+var cola_opc2_TW = "CR_TW_DM_SAC";
 
-var msj_asesor_uno = "Bienvenido al WhatsApp de Claro Costa Rica. Ante la emergencia del COVID-19 estamos tratando de atenderte en el menor tiempo posible. $cr $cr ";
-    //msj_asesor_uno += "Por favor ingresá el número del motivo de tu contacto: $cr $cr ";
-   // msj_asesor_uno += "1. Contrataciones y Renovaciones $cr ";
-    //msj_asesor_uno += "2. Servicio al Cliente $cr ";
+var msj_asesor_uno = "de Claro Costa Rica. Ante la emergencia del COVID-19 estamos tratando de atenderte en el menor tiempo posible. $cr $cr ";
+    msj_asesor_uno += "Por favor ingresá el número del motivo de tu contacto: $cr $cr ";
+    msj_asesor_uno += "1. Contrataciones y Renovaciones $cr ";
+    msj_asesor_uno += "2. Servicio al Cliente $cr ";
 
-var mjs_horario = "Muchas gracias por escribirnos, nuestro horario de atención es de 7:00 am a 10:00 pm. $cr Escribenos mañana y con gusto te atenderemos.";
+var mjs_horario = "Muchas gracias por escribirnos, nuestro horario de atención es de 7:00 am a 10:00 pm. $cr Escríbenos mañana y con gusto te atenderemos.";
 
 var palabras = {  
   "recarga": {
@@ -64,9 +72,9 @@ var palabras = {
   },
   "asesor": {
       "type": "text",
-      "accion" : "transfer", // "accion" : "continue",
-      "queue" : cola_opc2, //"",
-      "mensaje" : msj_asesor_uno,
+      "accion" : "continue",
+      "queue" : "",
+      "mensaje" : "",
       "mediaURL" : ""
   }
 };
@@ -159,3 +167,19 @@ exports.dias = dias;
 exports.mjs_horario = mjs_horario;
 
 exports.contenedor = contenedor;
+
+/*****************************************************/
+
+exports.pais = pais;
+
+exports.nomApp = nomApp;
+
+exports.cola_opc1 = cola_opc1;
+exports.cola_opc1_FB = cola_opc1_FB;
+exports.cola_opc1_TW = cola_opc1_TW;
+
+exports.cola_opc2 = cola_opc2;
+exports.cola_opc2_FB = cola_opc2_FB;
+exports.cola_opc2_TW = cola_opc2_TW;
+
+exports.msj_asesor_uno = msj_asesor_uno;
