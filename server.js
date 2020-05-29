@@ -89,29 +89,12 @@ app.post('/message', (req, res) => {
                   {
                     opcion = cadena[i];
                     msj_buscar = cadena[i];
-                    result = palabras[atr];
                     if(opcion == "asesor")
                     {
-                      //palabras[atr].mensaje = obtener_MSJ(channel);
-                      //
-                      //Temporal
-                      if(horarios)
-                      {                        
-                        nom_grupoACD = palabras[atr].queue;
-                        bandera_tranferido = true;
-                      }
-                      else
-                      {                   
-                        contenedor.type = palabras["asesor"].type;
-                        contenedor.accion = "end";
-                        contenedor.queue = "";
-                        contenedor.mensaje = mjs_horario;
-                        result = contenedor;
-                        bandera_fueraHorario = true;
-                      }
+                      palabras[atr].mensaje = obtener_MSJ(channel);                      
                     }
 
-                    //result = palabras[atr];
+                    result = palabras[atr];
                     bandera = true;
                     bandera_opt = true;
                     break;
@@ -122,7 +105,7 @@ app.post('/message', (req, res) => {
 
               console.log("[Brito] :: [message] :: [msj_buscar_opcion] :: " + msj_buscar_opcion);
 
-              /*if(localStorage.getItem("msj_"+conversationID) == null) // No existe
+              if(localStorage.getItem("msj_"+conversationID) == null) // No existe
               {
                 if(msj_buscar == "asesor")
                 {
@@ -173,7 +156,7 @@ app.post('/message', (req, res) => {
                 {
                   localStorage.removeItem("msj_"+conversationID);
                 }
-              }*/
+              }
 
               var options = {
                 'method': 'POST',
@@ -198,11 +181,11 @@ app.post('/message', (req, res) => {
                 if(bandera_opt)
                 {
                   console.log(options);
-                  request(options, function (error, response)
+                 /* request(options, function (error, response)
                   { 
                     if (error) throw new Error(error);
                     console.log(response.body);
-                  });
+                  });*/
                 }
               }
               else{result = msj_dafault; localStorage.removeItem("msj_"+conversationID);}
