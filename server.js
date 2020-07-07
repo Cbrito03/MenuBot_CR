@@ -181,11 +181,11 @@ app.post('/message', (req, res) => {
                 if(bandera_opt)
                 {
                   console.log(options);
-                 /* request(options, function (error, response)
+                  request(options, function (error, response)
                   { 
                     if (error) throw new Error(error);
                     console.log(response.body);
-                  });*/
+                  });
                 }
               }
               else{result = msj_dafault; localStorage.removeItem("msj_"+conversationID);}
