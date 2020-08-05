@@ -73,147 +73,161 @@ app.post('/message', (req, res) => {
           {
             if(cadena !== '' && typeof cadena !== "undefined") 
             {
-              cadena = cadena.text.toLowerCase(); // minusculas
-              cadena = cadena.trim();
-              msj_buscar_opcion = cadena;
-              cadena = cadena.replace(/,/g,"").replace(/;/g,"").replace(/:/g,"").replace(/\./g,""); // borramos ,;.:
-              cadena = cadena.split(" "); // lo convertimo en array mediante los espacios
+              if(context.lastInteractionFinishType !== "CLIENT_TIMEOUT")
+							{
+                cadena = cadena.text.toLowerCase(); // minusculas
+                cadena = cadena.trim();
+                msj_buscar_opcion = cadena;
+                cadena = cadena.replace(/,/g,"").replace(/;/g,"").replace(/:/g,"").replace(/\./g,""); // borramos ,;.:
+                cadena = cadena.split(" "); // lo convertimo en array mediante los espacios
 
-              for(var i = 0; i < cadena.length; i++)
-              {
-                for(var atr in palabras)
+                for(var i = 0; i < cadena.length; i++)
                 {
-                  if(cadena[i] === "configuración"){ cadena[i] = 'configuracion'}
-
-                  if(atr.toLowerCase() === cadena[i])
+                  for(var atr in palabras)
                   {
-                    opcion = cadena[i];
-                    msj_buscar = cadena[i];
-                    if(opcion == "asesor")
+                    //if(cadena[i] === "configuración"){ cadena[i] = 'configuracion'}
+
+                    if(atr.toLowerCase() === cadena[i])
                     {
-                      palabras[atr].mensaje = obtener_MSJ(channel);                      
+                      opcion = cadena[i];
+                      msj_buscar = cadena[i];
+                      if(opcion == "asesor")
+                      {
+                        palabras[atr].mensaje = obtener_MSJ(channel);                      
+                      }
+
+                      result = palabras[atr];
+                      bandera = true;
+                      bandera_opt = true;
+                      break;
+                    }
+                  }      
+                  if(bandera){ break; }
+                }
+
+                console.log("[Brito] :: [message] :: [msj_buscar_opcion] :: " + msj_buscar_opcion);
+
+                if(localStorage.getItem("msj_"+conversationID) == null) // No existe
+                {
+                  if(msj_buscar == "asesor")
+                  {
+                    console.log('[Brito] :: [message] :: [Crea Storage] :: ' + localStorage.getItem("msj_"+conversationID));
+                    localStorage.setItem("msj_"+conversationID, msj_buscar);
+                  }
+                }
+                else // Existe localStorage
+                {
+                  console.log('[Brito] :: [message] :: [Borra Storage] :: ' + localStorage.getItem("msj_"+conversationID));
+
+                  var y = parseInt(msj_buscar_opcion);            
+
+                  if((msj_buscar_opcion == "1" || msj_buscar_opcion == "2") && localStorage.getItem("msj_"+conversationID) == "asesor")
+                  {
+                    localStorage.removeItem("msj_"+conversationID);
+                    opcion = "asesor - " + msj_buscar_opcion;
+                    if(horarios)
+                    {
+                      console.log("[Brito] :: [Cumple horario habil] :: [horarios] :: " + horarios); 
+                      result = menu_opciones[msj_buscar_opcion];
+                      nom_grupoACD = obtener_ACD(channel, 'asesor-'+msj_buscar_opcion);
+                      bandera_tranferido = true;
+                    }
+                    else
+                    {
+                      console.log("[Brito] :: [No cumple horario habil] :: [horarios] :: " + horarios);                    
+                      contenedor.type = palabras["asesor"].type;
+                      contenedor.accion = "end";
+                      contenedor.queue = "";
+                      contenedor.mensaje = mjs_horario;
+                      result = contenedor;
+                      bandera_fueraHorario = true;
                     }
 
-                    result = palabras[atr];
                     bandera = true;
                     bandera_opt = true;
-                    break;
                   }
-                }      
-                if(bandera){ break; }
-              }
-
-              console.log("[Brito] :: [message] :: [msj_buscar_opcion] :: " + msj_buscar_opcion);
-
-              if(localStorage.getItem("msj_"+conversationID) == null) // No existe
-              {
-                if(msj_buscar == "asesor")
-                {
-                  console.log('[Brito] :: [message] :: [Crea Storage] :: ' + localStorage.getItem("msj_"+conversationID));
-                  localStorage.setItem("msj_"+conversationID, msj_buscar);
-                }
-              }
-              else // Existe localStorage
-              {
-                console.log('[Brito] :: [message] :: [Borra Storage] :: ' + localStorage.getItem("msj_"+conversationID));
-
-                var y = parseInt(msj_buscar_opcion);            
-
-                if((msj_buscar_opcion == "1" || msj_buscar_opcion == "2") && localStorage.getItem("msj_"+conversationID) == "asesor")
-                {
-                  localStorage.removeItem("msj_"+conversationID);
-                  opcion = "asesor - " + msj_buscar_opcion;
-                  if(horarios)
+                  else if (!isNaN(y) && localStorage.getItem("msj_"+conversationID) == "asesor")
                   {
-                    console.log("[Brito] :: [Cumple horario habil] :: [horarios] :: " + horarios); 
-                    result = menu_opciones[msj_buscar_opcion];
-                    nom_grupoACD = obtener_ACD(channel, 'asesor-'+msj_buscar_opcion);
-                    bandera_tranferido = true;
+                    console.log("[Brito] :: [No es el número correcto] :: [Número de opción] :: " + y);
+                    opcion = "asesor";
+                    result = palabras['asesor'];
+                    bandera = true;                  
+                    bandera_opt = false;
                   }
                   else
                   {
-                    console.log("[Brito] :: [No cumple horario habil] :: [horarios] :: " + horarios);                    
-                    contenedor.type = palabras["asesor"].type;
-                    contenedor.accion = "end";
-                    contenedor.queue = "";
-                    contenedor.mensaje = mjs_horario;
-                    result = contenedor;
-                    bandera_fueraHorario = true;
+                    localStorage.removeItem("msj_"+conversationID);
                   }
+                }
 
-                  bandera = true;
-                  bandera_opt = true;
-                }
-                else if (!isNaN(y) && localStorage.getItem("msj_"+conversationID) == "asesor")
+                var options = {
+                  'method': 'POST',
+                  'url': 'https://estadisticasmenubot.mybluemix.net/opcion/insert',
+                  'headers': {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(
+                  {
+                    "conversacion_id": conversationID,
+                    "pais": pais,
+                    "app": nomApp,
+                    "opcion": opcion,
+                    "transferencia": bandera_tranferido,
+                    "fueraHorario": bandera_fueraHorario,
+                    "grupoACD": nom_grupoACD
+                  })
+                };
+                console.log("[Banderas] :: ",bandera, bandera_opt);
+                if(bandera == true)
                 {
-                  console.log("[Brito] :: [No es el número correcto] :: [Número de opción] :: " + y);
-                  opcion = "asesor";
-                  result = palabras['asesor'];
-                  bandera = true;                  
-                  bandera_opt = false;
+                  if(bandera_opt)
+                  {
+                    console.log(options);
+                    request(options, function (error, response)
+                    { 
+                      if (error) throw new Error(error);
+                      console.log(response.body);
+                    });
+                  }
                 }
-                else
-                {
-                  localStorage.removeItem("msj_"+conversationID);
-                }
+                else{result = msj_dafault; localStorage.removeItem("msj_"+conversationID);}
+
+                estatus = 200;
+
+                resultado = {
+                  "context": context,
+                  "action":{
+                    "type": result.accion,
+                    "queue": nom_grupoACD
+                  },
+                  "messages":[{
+                    "type": result.type,
+                    "text": result.mensaje,
+                    "mediaURL": result.mediaURL
+                  }],
+                  "additionalInfo": {
+                    "key":"RUT",
+                    "RUT":"1-9"
+                  }
+                };
+
+                if(result.mensaje === ""){resultado.messages = [];}
               }
-
-              var options = {
-                'method': 'POST',
-                'url': 'https://estadisticasmenubot.mybluemix.net/opcion/insert',
-                'headers': {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                {
-                  "conversacion_id": conversationID,
-                  "pais": pais,
-                  "app": nomApp,
-                  "opcion": opcion,
-                  "transferencia": bandera_tranferido,
-                  "fueraHorario": bandera_fueraHorario,
-                  "grupoACD": nom_grupoACD
-                })
-              };
-              console.log("[Banderas] :: ",bandera, bandera_opt);
-              if(bandera == true)
+              else if(context.lastInteractionFinishType == "CLIENT_TIMEOUT")
               {
-                if(bandera_opt)
-                {
-                  console.log(options);
-                  request(options, function (error, response)
-                  { 
-                    if (error) throw new Error(error);
-                    console.log(response.body);
-                  });
+                resultado = {
+                  "context": context,
+                  "action": {
+                    "type" : "transfer",
+                      "queue" : context.lastInteractionQueue,
+                  },
+                  "messages": [],
+                  "additionalInfo": {
+                    "key":"RUT",
+                    "RUT":"1-9"
+                  }
                 }
               }
-              else{result = msj_dafault; localStorage.removeItem("msj_"+conversationID);}
-
-              estatus = 200;
-
-              resultado = {
-                "context":{
-                  "agent":false,
-                  "callback":false,
-                  "video":false
-                },
-                "action":{
-                  "type": result.accion,
-                  "queue": nom_grupoACD
-                },
-                "messages":[{
-                  "type": result.type,
-                  "text": result.mensaje,
-                  "mediaURL": result.mediaURL
-                }],
-                "additionalInfo": {
-                  "key":"RUT",
-                  "RUT":"1-9"
-                }
-              };
-
-              if(result.mensaje === ""){resultado.messages = [];}
 
               console.log("[Brito] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: [Brito]");
             }
@@ -390,7 +404,7 @@ app.get('/', (req, res) => {
   respuesta += "Hora inicio: " + config.OPEN_HOUR + " - Hora Fin: " + config.CLOSE_HOUR + " <br> ";
   respuesta += "Respuesta del Horario: " + horarios + " <br> ";
   respuesta += "Hora Convertida  " + nd +" <br>";
-  respuesta += "Versión: 3.0.0 <br>";
+  respuesta += "Versión: 4.0.0 <br>";
   res.status(200).send(respuesta);
 })
 
