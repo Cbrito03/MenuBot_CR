@@ -136,7 +136,7 @@ app.post('/message', (req, res) => {
                     {
                       console.log("[Brito] :: [No cumple horario habil] :: [horarios] :: " + horarios);                    
                       contenedor.type = palabras["asesor"].type;
-                      contenedor.accion = "end";
+                      contenedor.accion = "transfer";
                       contenedor.queue = "";
                       contenedor.mensaje = mjs_horario;
                       result = contenedor;
