@@ -1,11 +1,14 @@
 //var cola_opc1 = "WhatsappTest";
 var pais = "CR", nomApp = "MenuBot_CR";
 
-var OPEN_HOUR = 7;
+/*var OPEN_HOUR = 7;
 var OPEN_MINUTE = 0;
 
-//var CLOSE_HOUR = 22;
-//var CLOSE_MINUTE = 0;
+var CLOSE_HOUR = 22;
+var CLOSE_MINUTE = 0;*/
+
+var OPEN_HOUR = 0;
+var OPEN_MINUTE = 0;
 
 var CLOSE_HOUR = 23;
 var CLOSE_MINUTE = 59;
