@@ -60,6 +60,7 @@ app.post('/message', (req, res) => {
   var nom_grupoACD = "";
   var opcion = "";
   var bandera_opt = true;
+  var rrss = "";
   
   if(apiVersion !== '' && typeof apiVersion !== "undefined") 
   {
@@ -74,7 +75,7 @@ app.post('/message', (req, res) => {
             if(cadena !== '' && typeof cadena !== "undefined") 
             {
               if(context.lastInteractionFinishType !== "CLIENT_TIMEOUT")
-							{
+              {
                 cadena = cadena.text.toLowerCase(); // minusculas
                 cadena = cadena.trim();
                 msj_buscar_opcion = cadena;
@@ -160,6 +161,19 @@ app.post('/message', (req, res) => {
                   }
                 }
 
+                switch (channel.toLowerCase())
+                {
+                  case "messenger":
+                    rrss = "FB";
+                  break;
+                  case "twitterDM":
+                    rrss = "TW";    
+                  break;
+                  default:
+                    rrss = "WA";
+                  break;
+                }
+
                 var options = {
                   'method': 'POST',
                   'url': 'https://estadisticasmenubot.mybluemix.net/opcion/insert',
@@ -172,6 +186,7 @@ app.post('/message', (req, res) => {
                     "pais": pais,
                     "app": nomApp,
                     "opcion": opcion,
+                    "rrss" : rrss,
                     "transferencia": bandera_tranferido,
                     "fueraHorario": bandera_fueraHorario,
                     "grupoACD": nom_grupoACD
@@ -404,11 +419,10 @@ app.get('/', (req, res) => {
   respuesta += "Hora inicio: " + config.OPEN_HOUR + " - Hora Fin: " + config.CLOSE_HOUR + " <br> ";
   respuesta += "Respuesta del Horario: " + horarios + " <br> ";
   respuesta += "Hora Convertida  " + nd +" <br>";
-  respuesta += "Versión: 4.0.0 <br>";
+  respuesta += "Versión: 4.1.0 <br>";
   res.status(200).send(respuesta);
 })
 
 http.createServer(app).listen(port, () => {
   console.log('Server started at http://localhost:' + port);
 });
-
