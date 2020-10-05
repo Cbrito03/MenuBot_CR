@@ -87,7 +87,7 @@ app.post('/wa/message', async (req, res) => {
 											}
 											else if(msj_wa.palabras[atr].action.queue !== "" && msj_wa.palabras[atr].action.type === "transfer")
 											{
-												if(/*horarios*/ config.horario_24_7)
+												if(horarios)
 												{
 													result_action = msj_wa.palabras[atr].action;
 													result_messages = msj_wa.palabras[atr].messages;												
@@ -141,7 +141,7 @@ app.post('/wa/message', async (req, res) => {
 
 										localStorage.removeItem("msj_"+conversationID);
 
-										if(config.horario_24_7 /*== true || horarios*/)
+										if(horarios)
 										{
 											if(msj_storage == "factura")
 											{
@@ -373,7 +373,7 @@ app.post('/fb/message', async (req, res) => {
 										}
 										else if(msj_fb.palabras[atr].action.queue !== "" && msj_fb.palabras[atr].action.type === "transfer")
 										{
-											if(horarios)
+											if(/*horarios*/ config.horario_24_7)
 											{
 												result_action = msj_fb.palabras[atr].action;
 												result_messages = msj_fb.palabras[atr].messages;												
@@ -427,7 +427,7 @@ app.post('/fb/message', async (req, res) => {
 
 										localStorage.removeItem("msj_"+conversationID);
 
-										if(horarios)
+										if(/*horarios*/ config.horario_24_7)
 										{
 											if(msj_storage == "factura")
 											{
@@ -657,7 +657,7 @@ app.post('/tw/message', async (req, res) => {
 											}
 											else if(msj_tw.palabras[atr].action.queue !== "" && msj_tw.palabras[atr].action.type === "transfer")
 											{
-												if(horarios)
+												if(/*horarios*/ config.horario_24_7)
 												{
 													result_action = msj_tw.palabras[atr].action;
 													result_messages = msj_tw.palabras[atr].messages;												
@@ -711,7 +711,7 @@ app.post('/tw/message', async (req, res) => {
 
 										localStorage.removeItem("msj_"+conversationID);
 
-										if(horarios)
+										if(/*horarios*/ config.horario_24_7)
 										{
 											if(msj_storage == "factura")
 											{
