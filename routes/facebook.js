@@ -239,24 +239,17 @@ router.post('/fb/message', async (req, res) => {
                 console.log("Entro a CLIENT_TIMEOUT FB");
                 
                 var timeout_acd = "";
-
-                if("CR_FB_MSS_Ventas" === context.lastInteractionQueue)
+                
+                for (var key in msj_fb.colas)
                 {
-                  timeout_acd = 900000;
-                }
-                else if("CR_FB_MSS_Ventas" !== context.lastInteractionQueue)
-                {
-                  for (var key in msj_fb.colas)
+                  if(msj_fb.colas[key].acd == context.lastInteractionQueue)
                   {
-                    if(msj_fb.colas[key].acd == context.lastInteractionQueue)
-                    {
-                      console.log(msj_fb.colas[key].acd);
-                      console.log(msj_fb.colas[key].timeout);
-                      timeout_acd = msj_fb.colas[key].timeout;
-                      break;
-                    }    
-                  }
-                }                
+                    console.log(msj_fb.colas[key].acd);
+                    console.log(msj_fb.colas[key].timeout);
+                    timeout_acd = msj_fb.colas[key].timeout;
+                    break;
+                  }    
+                }                }                
 
                 resultado = {
                   "context": context,

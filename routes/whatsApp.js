@@ -239,25 +239,18 @@ router.post('/wa/message', async (req, res) => {
                 console.log("Entro a CLIENT_TIMEOUT WA");
 
                 var timeout_acd = "";
-
-                if("CR_Wa_Ventas" === context.lastInteractionQueue)
-                {
-                  timeout_acd = 900000;
-                }
-                else if("CR_Wa_Ventas" !== context.lastInteractionQueue)
-                {
-                  for (var key in msj_wa.colas)
-                  {                  
-                    if(msj_wa.colas[key].acd == context.lastInteractionQueue)
-                    {                      
-                      console.log(msj_wa.colas[key].acd);
-                      console.log(msj_wa.colas[key].timeout);
-                      timeout_acd = msj_wa.colas[key].timeout;
-                      break;
-                    }
-    
+               
+                for (var key in msj_wa.colas)
+                {                  
+                  if(msj_wa.colas[key].acd == context.lastInteractionQueue)
+                  {                      
+                    console.log(msj_wa.colas[key].acd);
+                    console.log(msj_wa.colas[key].timeout);
+                    timeout_acd = msj_wa.colas[key].timeout;
+                    break;
                   }
-                }                
+  
+                }            
 
                 resultado = {
                   "context": context,

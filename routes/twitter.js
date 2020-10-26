@@ -238,26 +238,17 @@ router.post('/tw/message', async (req, res) => {
                 console.log("Entro a CLIENT_TIMEOUT TW");
                 
                 var timeout_acd = "";
-
-                if("CR_TW_DM_Ventas" === context.lastInteractionQueue)
-                {
-                  timeout_acd = 900000;
-                }
-                else if("CR_TW_DM_Ventas" !== context.lastInteractionQueue)
-                {
-                  for (var key in msj_tw.colas)
-                  {
-                    if(msj_tw.colas[key].acd == context.lastInteractionQueue)
-                    {
-                      console.log(msj_tw.colas[key].acd);
-                      console.log(msj_tw.colas[key].timeout);
-                      timeout_acd = msj_tw.colas[key].timeout;
-                      break;
-                    }    
-                  }
-                }
-
                 
+                for (var key in msj_tw.colas)
+                {
+                  if(msj_tw.colas[key].acd == context.lastInteractionQueue)
+                  {
+                    console.log(msj_tw.colas[key].acd);
+                    console.log(msj_tw.colas[key].timeout);
+                    timeout_acd = msj_tw.colas[key].timeout;
+                    break;
+                  }    
+                }                
 
                 resultado = {
                   "context": context,
