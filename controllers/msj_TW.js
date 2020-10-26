@@ -1,14 +1,14 @@
 var colas = {
   "ventas" : {
-      "timeout" : 180000, //3 min
+      "timeout" : 300000, // 5 min
       "acd" : "CR_TW_DM_Ventas"
   },
   "pagar_asesor" : {
-      "timeout" : 180000,
+      "timeout" : 180000, // 3 min
       "acd" : "CR_TW_DM_SAC"
   },
   "factura_asesor" : {
-      "timeout" : 180000,
+      "timeout" : 180000, // 3 min
       "acd" : "CR_TW_DM_SAC"
   }
 };

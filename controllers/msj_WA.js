@@ -1,14 +1,14 @@
 var colas = {
   "ventas" : {
-      "timeout" : 300000,
+      "timeout" : 300000, // 5 min
       "acd" : "CR_Wa_Ventas"
   },
   "pagar_asesor" : {
-      "timeout" : 300000,
+      "timeout" : 300000, // 5 min
       "acd" : "CR_Wa_Movil"
   },
   "factura_asesor" : {
-      "timeout" : 300000,
+      "timeout" : 300000, // 5 min
       "acd" : "CR_Wa_Movil"
   }
 };
@@ -58,7 +58,13 @@ var palabras = {
       "queue" : colas["ventas"].acd,
       "timeoutInactivity" : colas["ventas"].timeout
     },
-    "messages" : []
+    "messages" : [
+      {
+        "type" : "text",
+        "text" :  "¡Hola! Gracias por escribirnos al WhatsApp de Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+        "mediaURL" : ""
+      }
+    ]
   },
   "recarga": {
     "action" : {
@@ -147,7 +153,13 @@ var msj_pagar_asesor = {
     "queue" : colas["pagar_asesor"].acd,
     "timeoutInactivity" : colas["pagar_asesor"].timeout
   },
-  "messages" : []
+  "messages" : [
+    {
+      "type" : "text",
+      "text" :  "¡Hola! Gracias por escribirnos al WhatsApp de Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+      "mediaURL" : ""
+    }
+  ]
 };
 
 var msj_factura_asesor = {
@@ -156,7 +168,13 @@ var msj_factura_asesor = {
     "queue" : colas["factura_asesor"].acd,
     "timeoutInactivity" : colas["factura_asesor"].timeout
   },
-  "messages" : []
+  "messages" : [
+    {
+      "type" : "text",
+      "text" :  "¡Hola! Gracias por escribirnos al WhatsApp de Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+      "mediaURL" : ""
+    }
+  ]
 };
 
 var msj_fuera_horario = {
