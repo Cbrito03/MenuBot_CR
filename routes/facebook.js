@@ -249,7 +249,7 @@ router.post('/fb/message', async (req, res) => {
                     timeout_acd = msj_fb.colas[key].timeout;
                     break;
                   }    
-                }                }                
+                }                             
 
                 resultado = {
                   "context": context,
