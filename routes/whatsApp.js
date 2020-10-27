@@ -32,8 +32,11 @@ router.post('/wa/message', async (req, res) => {
 
   var bandera_TIMEOUT = false;
 
+  console.log("lastInteractionFinishTime :: " + user.name + " :: " + context.lastInteractionFinishTime);
+
   var now = moment();
-  var fechaStamp = moment(context.lastInteractionFinishTime).format("YYYY-MM-DD HH:mm:ss");
+  //var fechaStamp = moment(context.lastInteractionFinishTime).format("YYYY-MM-DD HH:mm:ss");
+  var fechaStamp = new Date(context.lastInteractionFinishTime);
   var fecha_actual = now.tz("America/Costa_Rica").format("YYYY-MM-DD HH:mm:ss");
   var fecha2 = moment(fecha_actual, "YYYY-MM-DD HH:mm:ss");
 
