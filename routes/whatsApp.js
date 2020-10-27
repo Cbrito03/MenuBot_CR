@@ -35,8 +35,8 @@ router.post('/wa/message', async (req, res) => {
   console.log("lastInteractionFinishTime :: " + user.name + " :: " + context.lastInteractionFinishTime);
 
   var now = moment();
-  //var fechaStamp = moment(context.lastInteractionFinishTime).format("YYYY-MM-DD HH:mm:ss");
-  var fechaStamp = new Date(context.lastInteractionFinishTime);
+  var fechaStamp = moment(context.lastInteractionFinishTime).subtract(6, 'hours');
+  fechaStamp = moment(fechaStamp).format("YYYY-MM-DD HH:mm:ss");
   var fecha_actual = now.tz("America/Costa_Rica").format("YYYY-MM-DD HH:mm:ss");
   var fecha2 = moment(fecha_actual, "YYYY-MM-DD HH:mm:ss");
 
