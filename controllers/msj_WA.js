@@ -74,7 +74,7 @@ var palabras = {
     "messages" : [
       {
         "type" : "text",
-        "text" :  "Recarga fácil y rápido visitando nuestro portal: https://paquetes.miclaro.cr/😎",
+        "text" :  "Recarga fácil y rápido visitando nuestro portal: https://paquetes.miclaro.cr/ 😎",
         "mediaURL" : ""
       }
     ]

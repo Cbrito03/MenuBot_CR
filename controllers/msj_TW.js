@@ -58,7 +58,13 @@ var palabras = {
       "queue" : colas["ventas"].acd,
       "timeoutInactivity" : colas["ventas"].timeout
     },
-    "messages" : []
+    "messages" : [
+      {
+        "type" : "text",
+        "text" :  "¡Hola! Gracias por escribirnos a Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+        "mediaURL" : ""
+      }
+    ]
   },
   "recarga": {
     "action" : {
@@ -68,7 +74,7 @@ var palabras = {
     "messages" : [
       {
         "type" : "text",
-        "text" :  "Recarga fácil y rápido visitando nuestro portal: https://paquetes.miclaro.cr/😎",
+        "text" :  "Recarga fácil y rápido visitando nuestro portal: https://paquetes.miclaro.cr/ 😎",
         "mediaURL" : ""
       }
     ]
@@ -147,7 +153,13 @@ var msj_pagar_asesor = {
     "queue" : colas["pagar_asesor"].acd,
     "timeoutInactivity" : colas["pagar_asesor"].timeout
   },
-  "messages" : []
+  "messages" : [
+    {
+      "type" : "text",
+      "text" :  "¡Hola! Gracias por escribirnos a Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+      "mediaURL" : ""
+    }
+  ]
 };
 
 var msj_factura_asesor = {
@@ -156,7 +168,13 @@ var msj_factura_asesor = {
     "queue" : colas["factura_asesor"].acd,
     "timeoutInactivity" : colas["factura_asesor"].timeout
   },
-  "messages" : []
+  "messages" : [
+    {
+      "type" : "text",
+      "text" :  "¡Hola! Gracias por escribirnos a Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+      "mediaURL" : ""
+    }
+  ]
 };
 
 var msj_fuera_horario = {
