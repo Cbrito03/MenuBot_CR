@@ -4,11 +4,11 @@ var colas = {
       "acd" : "CR_TW_DM_Ventas"
   },
   "pagar_asesor" : {
-      "timeout" : 180000, // 3 min
+      "timeout" : 300000, // 5 min - 180000, // 3 min
       "acd" : "CR_TW_DM_SAC"
   },
   "factura_asesor" : {
-      "timeout" : 180000, // 3 min
+      "timeout" : 300000, // 5 min - 180000, // 3 min
       "acd" : "CR_TW_DM_SAC"
   }
 };
@@ -35,6 +35,8 @@ var msj_club = "Si eres Claro 😉 eres parte del club con beneficios y descuent
     msj_club += "¡Descarga la App! 👇 \n";
     msj_club += "Android: http://bit.ly/ClaroClub-Android \n";
     msj_club += "iOS: http://bit.ly/ClaroClubiOS ";
+
+var msj_espera = "¡Hola! Gracias por escribirnos a Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀";
     
 var msj_default = 
 {
@@ -61,7 +63,7 @@ var palabras = {
     "messages" : [
       {
         "type" : "text",
-        "text" :  "¡Hola! Gracias por escribirnos a Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+        "text" :  msj_espera,
         "mediaURL" : ""
       }
     ]
@@ -156,7 +158,7 @@ var msj_pagar_asesor = {
   "messages" : [
     {
       "type" : "text",
-      "text" :  "¡Hola! Gracias por escribirnos a Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+      "text" :  msj_espera,
       "mediaURL" : ""
     }
   ]
@@ -171,7 +173,7 @@ var msj_factura_asesor = {
   "messages" : [
     {
       "type" : "text",
-      "text" :  "¡Hola! Gracias por escribirnos a Claro Costa Rica, en un momento uno de nuestros ejecutivos te atenderá 😀",
+      "text" :  msj_espera,
       "mediaURL" : ""
     }
   ]
