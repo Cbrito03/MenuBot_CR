@@ -97,7 +97,7 @@ router.post('/wa/message', async (req, res) => {
                       }
                       else if(msj_wa.palabras[atr].action.queue !== "" && msj_wa.palabras[atr].action.type === "transfer")
                       {
-                        if(/*horarios*/ config.horario_24_7)
+                        if(horarios /*config.horario_24_7*/)
                         {
                           result_action = msj_wa.palabras[atr].action;
                           result_messages = msj_wa.palabras[atr].messages;                        
@@ -151,7 +151,7 @@ router.post('/wa/message', async (req, res) => {
 
                     localStorage.removeItem("msj_"+conversationID);
 
-                    if(/*horarios*/ config.horario_24_7)
+                    if(horarios /*config.horario_24_7*/)
                     {
                       if(msj_storage == "factura")
                       {
