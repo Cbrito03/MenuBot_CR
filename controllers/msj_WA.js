@@ -13,8 +13,9 @@ var colas = {
   }
 };
 
-var mensaje_df = "Nuestro número de WhatsApp ha cambiado, ahora puedes contactarnos ingresando aquí 👉https://bit.ly/WhatsAppCRClaro. ¡Claro que sí!";
-    
+//var mensaje_df = "Nuestro número de WhatsApp ha cambiado, ahora puedes contactarnos ingresando aquí 👉https://bit.ly/WhatsAppCRClaro. ¡Claro que sí!";
+var mensaje_df = "Nuestro número de WhatsApp ha cambiado, ahora puedes contactarnos ingresando aquí 👉 http://bit.ly/WhatsappCRclaro. ¡Claro que sí!";
+
 var mjs_horario = "Muchas gracias por escribirnos, nuestro horario de atención es de 7:00 am a 10:00 pm. \n Escríbenos mañana y con gusto te atenderemos.";
 
 var msj_pagar = "Para conocer el saldo, fecha de vencimiento y también poder pagar tu factura móvil y residencial, ";
